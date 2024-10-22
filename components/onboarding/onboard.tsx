@@ -1,13 +1,13 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
+// import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 // Define props interface
+
+// Assuming this is the type inside your onboarding component file:
 interface OnboardingScreenProps {
-  navigation: NavigationProp<any>;
-  route: RouteProp<any>;
-  onDone: () => void;
+  onDone: () => void; // Only keep onDone prop if navigation is not needed
 }
 
 const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onDone }) => {
