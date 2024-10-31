@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, Image, ActivityIndicator, StyleSheet } from "react-native"; // Add Image import for app logo
-import HomeScreen from "../../components/homepage/home"; // Your existing Home component
-import OnboardingScreen from "../../components/onboarding/onboard"; // Import the onboarding screen
+import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
+import HomeScreen from "../../components/homepage/home";
+import OnboardingScreen from "../../components/onboarding/onboard";
+import LoginScreen from "../../components/authentication/login"; // Import your login screen
 
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isSplashVisible, setSplashVisible] = useState(true); // State for splash screen
+  const [isSplashVisible, setSplashVisible] = useState(true);
   const [isOnboardingVisible, setOnboardingVisible] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false); // State for login
 
   useEffect(() => {
-    // Show splash screen for 7 seconds
     const splashTimer = setTimeout(() => {
       setSplashVisible(false);
-    }, 7000); // 7 seconds
+    }, 7000);
 
-    return () => clearTimeout(splashTimer); // Clear timer on component unmount
+    return () => clearTimeout(splashTimer);
   }, []);
 
   useEffect(() => {
@@ -36,13 +37,15 @@ const App = () => {
     setOnboardingVisible(false);
   };
 
-  // Splash screen render for 7 seconds
+  const handleLogin = () => {
+    setLoggedIn(true); // Set logged in state to true
+  };
+
   if (isSplashVisible) {
     return (
       <View style={styles.splashContainer}>
-        {/* Replace this Image source with your actual app logo */}
         <Image
-          source={require("../../assets/images/logo_dark.png")} // Path to your app logo
+          source={require("../../assets/images/logo_dark.png")}
           style={styles.logo}
         />
         <ActivityIndicator size="large" color="#0000ff" />
@@ -55,14 +58,18 @@ const App = () => {
     <>
       {isOnboardingVisible ? (
         <OnboardingScreen onDone={handleOnboardingDone} />
+      ) : isLoggedIn ? (
+        <Tab.Navigator>
+          <Tab.Screen name="Home" component={HomeScreen} />
+          {/* Add other tab screens here if needed */}
+        </Tab.Navigator>
       ) : (
-        <></>
+        <LoginScreen onLogin={handleLogin} /> // Render login screen
       )}
     </>
   );
 };
 
-// Basic styles for splash screen
 const styles = StyleSheet.create({
   splashContainer: {
     flex: 1,
@@ -71,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   logo: {
-    width: 200, // Set appropriate width for your logo
-    height: 200, // Set appropriate height for your logo
+    width: 200,
+    height: 200,
     marginBottom: 20,
   },
 });
