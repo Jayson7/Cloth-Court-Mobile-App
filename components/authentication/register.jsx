@@ -1,5 +1,12 @@
-import React from "react";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Image,
+} from "react-native";
 import Animated, {
   Easing,
   useSharedValue,
@@ -7,25 +14,29 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-export default function RegisterScreen({ onRegister }) {
-  const translateY = useSharedValue(100); // Start position for animation
-  const opacity = useSharedValue(0); // Start opacity
+export default function RegistrationScreen({ onRegister }) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const translateY = useSharedValue(100); // Animation start position
+  const opacity = useSharedValue(0); // Animation start opacity
 
-  // Define animated styles
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: translateY.value }],
-      opacity: opacity.value,
-    };
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    opacity: opacity.value,
+  }));
 
-  const handleLogin = () => {
-    // Handle Register logic here
-    console.log("Sign up");
-    onLogin(); // Call the passed onLogin function
+  const handleRegister = () => {
+    console.log("Registered with:", {
+      username,
+      email,
+      password,
+      confirmPassword,
+    });
+    onRegister();
   };
 
-  // Start the animation when the component mounts
   React.useEffect(() => {
     translateY.value = withTiming(0, {
       duration: 500,
@@ -36,20 +47,50 @@ export default function RegisterScreen({ onRegister }) {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.loginContainer, animatedStyle]}>
+      <Image
+        style={styles.imgRegister}
+        source={require("../../assets/images/register.png")}
+      />
+      <Animated.View style={[styles.registerContainer, animatedStyle]}>
         <Text style={styles.title}>Register</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          value={username}
+          onChangeText={setUsername}
+          placeholderTextColor="#666"
+        />
         <TextInput
           style={styles.input}
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor="#666"
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+          placeholderTextColor="#666"
         />
-        <Button title="Register" onPress={handleLogin} />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholderTextColor="#666"
+        />
+        <TouchableOpacity
+          style={styles.registerButton}
+          onPress={handleRegister}
+        >
+          <Text style={styles.registerButtonText}>Register</Text>
+        </TouchableOpacity>
       </Animated.View>
     </View>
   );
@@ -58,31 +99,56 @@ export default function RegisterScreen({ onRegister }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#F3F4F6", // Light gray background
   },
-  loginContainer: {
-    width: "80%",
-    backgroundColor: "white",
-    borderRadius: 10,
-    padding: 20,
+  imgRegister: {
+    width: "100%",
+    height: "40%",
+  },
+  registerContainer: {
+    width: "100%",
+    paddingVertical: 30,
+    paddingHorizontal: 25,
+    backgroundColor: "#FFF", // White background
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     elevation: 5,
     shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: -3 },
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
+    fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    color: "#333",
   },
   input: {
-    height: 40,
-    borderColor: "#ccc",
+    height: 50,
+    borderColor: "#E0E0E0",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 8,
+    paddingHorizontal: 15,
     marginBottom: 15,
-    paddingHorizontal: 10,
+    backgroundColor: "#FAFAFA",
+    color: "#333",
+    fontSize: 16,
+  },
+  registerButton: {
+    height: 50,
+    backgroundColor: "#10B981", // Green for registration
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  registerButtonText: {
+    color: "#FFF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
