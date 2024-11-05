@@ -13,6 +13,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { FaFacebook } from "react-icons/fa6";
 
 export default function LoginScreen({ onLogin }) {
   const [twoFactorCode, setTwoFactorCode] = useState("");
@@ -65,6 +66,9 @@ export default function LoginScreen({ onLogin }) {
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <Text style={styles.forgot2}>Already have an acoount ?</Text>
+        <View style={styles.faLogin}>
+          <FaFacebook />
+        </View>
       </Animated.View>
     </View>
   );
@@ -140,5 +144,10 @@ const styles = StyleSheet.create({
     marginVertical: 7,
     color: "#0068ff",
     fontWeight: "bold",
+  },
+  faLogin: {
+    justifyContent: "space-between",
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
