@@ -7,13 +7,14 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
+
 import Animated, {
   Easing,
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { FaFacebook } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
 
 export default function LoginScreen({ onLogin }) {
   const [twoFactorCode, setTwoFactorCode] = useState("");

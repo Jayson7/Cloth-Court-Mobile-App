@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
 import HomeScreen from "../../components/homepage/home";
 import OnboardingScreen from "../../components/onboarding/onboard";
-import LoginScreen from "../../components/authentication/login"; // Import your login screen
+import LoginScreen from "../../components/authentication/login";
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const App = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
   const [isOnboardingVisible, setOnboardingVisible] = useState(true);
-  const [isLoggedIn, setLoggedIn] = useState(false); // State for login
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const splashTimer = setTimeout(() => {
@@ -38,7 +38,7 @@ const App = () => {
   };
 
   const handleLogin = () => {
-    setLoggedIn(true); // Set logged in state to true
+    setLoggedIn(true);
   };
 
   if (isSplashVisible) {
@@ -53,20 +53,26 @@ const App = () => {
     );
   }
 
-  // After splash screen, continue with onboarding or main app
   return (
-    <>
-      {isOnboardingVisible ? (
-        <OnboardingScreen onDone={handleOnboardingDone} />
-      ) : isLoggedIn ? (
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          {/* Add other tab screens here if needed */}
-        </Tab.Navigator>
-      ) : (
-        <LoginScreen onLogin={handleLogin} /> // Render login screen
-      )}
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {isOnboardingVisible ? (
+          <Stack.Screen name="Onboarding" options={{ headerShown: false }}>
+            {() => <OnboardingScreen onDone={handleOnboardingDone} />}
+          </Stack.Screen>
+        ) : isLoggedIn ? (
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+        ) : (
+          <Stack.Screen name="Login" options={{ headerShown: false }}>
+            {() => <LoginScreen onLogin={handleLogin} />}
+          </Stack.Screen>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
