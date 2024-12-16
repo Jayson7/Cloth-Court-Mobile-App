@@ -71,7 +71,24 @@ export default function LoginScreen({ onLogin }) {
         <Text style={styles.forgot2}>Already have an account?</Text>
         <View style={styles.faLogin}>
           {/* Use the Icon component from react-native-vector-icons */}
-          <Icon name="facebook" size={30} color="#3b5998" />
+          <Icon
+            name="facebook"
+            size={15}
+            color="#3b5998"
+            style={{ margin: 10 }}
+          />
+          <Icon
+            name="google"
+            size={15}
+            color="#3b5998"
+            style={{ margin: 10 }}
+          />
+          <Icon
+            name="twitter"
+            size={15}
+            color="#3b5998"
+            style={{ margin: 10 }}
+          />
         </View>
       </Animated.View>
     </View>
@@ -150,8 +167,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   faLogin: {
-    justifyContent: "space-between",
-    flexDirection: "column",
+    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
   },
 });
