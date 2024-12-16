@@ -11,36 +11,36 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const [isSplashVisible, setSplashVisible] = useState(true);
-  const [isOnboardingVisible, setOnboardingVisible] = useState(true);
+  const [isOnboardingVisible, setOnboardingVisible] = useState<boolean | null>(
+    null
+  );
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const splashTimer = setTimeout(() => {
       setSplashVisible(false);
-    }, 7000);
-
+    }, 3000); // Splash timer duration
     return () => clearTimeout(splashTimer);
   }, []);
 
   useEffect(() => {
     const checkOnboarding = async () => {
       const hasSeenOnboarding = await AsyncStorage.getItem("hasSeenOnboarding");
-      if (hasSeenOnboarding) {
-        setOnboardingVisible(false);
-      }
+      setOnboardingVisible(hasSeenOnboarding); // Show onboarding if null
     };
     checkOnboarding();
   }, []);
 
   const handleOnboardingDone = async () => {
     await AsyncStorage.setItem("hasSeenOnboarding", "true");
-    setOnboardingVisible(false);
+    setOnboardingVisible(false); // Hide onboarding after it’s completed
   };
 
   const handleLogin = () => {
     setLoggedIn(true);
   };
 
+  // Show the splash screen while it's active
   if (isSplashVisible) {
     return (
       <View style={styles.splashContainer}>
@@ -48,6 +48,15 @@ const App = () => {
           source={require("../../assets/images/logo_dark.png")}
           style={styles.logo}
         />
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  // Prevent rendering until onboarding visibility is determined
+  if (isOnboardingVisible === null) {
+    return (
+      <View style={styles.splashContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );

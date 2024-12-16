@@ -1,20 +1,16 @@
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import Onboarding from "react-native-onboarding-swiper";
-// import { NavigationProp, RouteProp } from "@react-navigation/native";
 
-// Define props interface
-
-// Assuming this is the type inside your onboarding component file:
 interface OnboardingScreenProps {
-  onDone: () => void; // Only keep onDone prop if navigation is not needed
+  onDone: () => void; // Use the onDone prop for navigation or other logic
 }
 
 const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onDone }) => {
   return (
     <Onboarding
-      onDone={onDone}
-      onSkip={onDone}
+      onDone={onDone} // Call the passed onDone function
+      onSkip={onDone} // Call the same function for skipping
       pages={[
         {
           backgroundColor: "#fff",

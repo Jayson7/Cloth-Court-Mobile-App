@@ -14,7 +14,9 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { FaFacebook } from "react-icons/fa";
+
+// Import Facebook icon from react-native-vector-icons
+import Icon from "react-native-vector-icons/FontAwesome"; // Use FontAwesome or another icon set
 
 export default function LoginScreen({ onLogin }) {
   const [twoFactorCode, setTwoFactorCode] = useState("");
@@ -66,9 +68,10 @@ export default function LoginScreen({ onLogin }) {
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.forgot2}>Already have an acoount ?</Text>
+        <Text style={styles.forgot2}>Already have an account?</Text>
         <View style={styles.faLogin}>
-          <FaFacebook />
+          {/* Use the Icon component from react-native-vector-icons */}
+          <Icon name="facebook" size={30} color="#3b5998" />
         </View>
       </Animated.View>
     </View>
