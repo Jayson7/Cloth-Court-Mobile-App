@@ -6,7 +6,7 @@ import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
 import HomeScreen from "../../components/homepage/home";
 import OnboardingScreen from "../../components/onboarding/onboard";
 import LoginScreen from "../../components/authentication/login";
-
+import RegistrationScreen from "../../components/authentication/register";
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -38,6 +38,10 @@ const App = () => {
 
   const handleLogin = () => {
     setLoggedIn(true);
+  };
+
+  const handleRegister = () => {
+    setLoggedIn(false);
   };
 
   // Show the splash screen while it's active
@@ -76,9 +80,14 @@ const App = () => {
             options={{ headerShown: false }}
           />
         ) : (
-          <Stack.Screen name="Login" options={{ headerShown: false }}>
-            {() => <LoginScreen onLogin={handleLogin} />}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="Login" options={{ headerShown: false }}>
+              {() => <LoginScreen onLogin={handleLogin} />}
+            </Stack.Screen>
+            <Stack.Screen name="Register" options={{ headerShown: false }}>
+              {() => <RegistrationScreen onRegister={handleRegister} />}
+            </Stack.Screen>
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

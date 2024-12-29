@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+
 import {
   View,
   TextInput,
@@ -20,14 +22,17 @@ import Icon from "react-native-vector-icons/FontAwesome"; // Use FontAwesome or 
 
 export default function LoginScreen({ onLogin }) {
   const [twoFactorCode, setTwoFactorCode] = useState("");
-  const translateY = useSharedValue(100); // Animation start position
+  const translateY = useSharedValue(300); // Animation start position
   const opacity = useSharedValue(0); // Animation start opacity
+  const navigation = useNavigation(); // Access navigation
 
+  // animation
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
     opacity: opacity.value,
   }));
 
+  // handle login
   const handleLogin = () => {
     console.log("Logged in with 2FA code:", twoFactorCode);
     onLogin();
@@ -68,27 +73,22 @@ export default function LoginScreen({ onLogin }) {
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.forgot2}>Already have an account?</Text>
+
+        <Text style={styles.forgot2}>
+          Don't have an account?,{" "}
+          <Text
+            style={{ color: "#ffcb00" }}
+            onPress={() => navigation.navigate("Register")}
+          >
+            Sign up
+          </Text>
+        </Text>
+
         <View style={styles.faLogin}>
           {/* Use the Icon component from react-native-vector-icons */}
-          <Icon
-            name="facebook"
-            size={15}
-            color="#3b5998"
-            style={{ margin: 10 }}
-          />
-          <Icon
-            name="google"
-            size={15}
-            color="#3b5998"
-            style={{ margin: 10 }}
-          />
-          <Icon
-            name="twitter"
-            size={15}
-            color="#3b5998"
-            style={{ margin: 10 }}
-          />
+          <Icon name="facebook" size={20} color="blue" style={{ margin: 13 }} />
+          <Icon name="google" size={20} color="red" style={{ margin: 13 }} />
+          <Icon name="twitter" size={20} color="#000" style={{ margin: 10 }} />
         </View>
       </Animated.View>
     </View>
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   forgot: {
     textAlign: "center",
     marginVertical: 10,
-    color: "#b1a721",
+    color: "#ffcb00",
     fontWeight: "bold",
   },
   forgot2: {
