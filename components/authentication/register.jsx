@@ -52,7 +52,7 @@ export default function RegistrationScreen({ onRegister }) {
         source={require("../../assets/images/register.png")}
       />
       <Animated.View style={[styles.registerContainer, animatedStyle]}>
-        <Text style={styles.title}>Register</Text>
+        <Text style={styles.title}>Create an Account</Text>
         <TextInput
           style={styles.input}
           placeholder="Username"
@@ -85,6 +85,7 @@ export default function RegistrationScreen({ onRegister }) {
           onChangeText={setConfirmPassword}
           placeholderTextColor="#666"
         />
+        <Text>Aready have an account? Login</Text>
         <TouchableOpacity
           style={styles.registerButton}
           onPress={handleRegister}
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
-    color: "#333",
+    color: "#283be1",
   },
   input: {
     height: 50,
